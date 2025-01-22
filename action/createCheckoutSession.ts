@@ -20,7 +20,7 @@ export async function createCheckoutSession(
 ) {
   try {
     // Check if any grouped items don't have a price
-    const itemsWithoutPrice = items.filter((item) => !item.Product.price);
+    const itemsWithoutPrice = items.filter((item) => item.Product.price == null);
 
     if (itemsWithoutPrice.length > 0) {
       throw new Error("Some items do not have a price");
@@ -41,9 +41,7 @@ export async function createCheckoutSession(
     console.log("Base URL:", process.env.NEXT_PUBLIC_BASE_URL);
 
     // Constructing success URL based on environment
-    const successUrl = `${
-      process.env.NEXT_PUBLIC_BASE_URL || "http://your-custom-domain.com"
-    }/success?session_id={CHECKOUT_SESSION_ID}&ordernumber=${metadata.orderNumber}`;
+    const successUrl = "https://shop-co-97pt.vercel.app/";
 
     // Creating Stripe checkout session
     const session = await stripe.checkout.sessions.create({
@@ -54,7 +52,9 @@ export async function createCheckoutSession(
       mode: "payment",
       allow_promotion_codes: true,
       success_url: successUrl,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://your-custom-domain.com"}/basket`,
+      cancel_url: `${
+        process.env.NEXT_PUBLIC_BASE_URL || "http://your-custom-domain.com"
+      }/basket`,
       line_items: items.map((item) => ({
         price_data: {
           currency: "PKR", // Use PKR for Pakistani Rupees
@@ -64,14 +64,16 @@ export async function createCheckoutSession(
             description: `Product ID: ${item.Product._id}`,
             metadata: {
               id: item.Product._id,
-              images: item.Product.image ? urlFor(item.Product.image).url() : null,
+              images: item.Product.image
+                ? urlFor(item.Product.image).url()
+                : null,
             },
           },
         },
         quantity: item.quantity,
       })),
       shipping_address_collection: {
-        allowed_countries: ['PK', 'US'], // Allowed countries for address collection
+        allowed_countries: ["PK", "US"], // Allowed countries for address collection
       },
       phone_number_collection: {
         enabled: true, // Enabling phone number collection
