@@ -29,8 +29,8 @@ const NavItems = () => {
         </Link>
 
         <Link href="/blog" className="text-black hover:text-blue-500">Brands</Link>
-        <Link href="/blog" className="text-black hover:text-blue-500">On Sale</Link>
-        <Link href="/blog" className="text-black hover:text-blue-500">New Arrivals</Link>
+        <Link href="/sale" className="text-black hover:text-blue-500">On Sale</Link>
+        <Link href="/arrival" className="text-black hover:text-blue-500">New Arrivals</Link>
       </div>
     </nav>
   );

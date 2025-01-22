@@ -64,7 +64,7 @@ const NewSalePage = ({ products, title = "New Sale" }: NewSalePageProps) => {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <Link href="/blog">
+          <Link href="/sale">
             <button className="w-[270px] h-[52px] bg-white text-black py-3 border border-gray-500 rounded-[100px] transition-transform duration-500 ease-in-out hover:scale-110">
               View All
             </button>
