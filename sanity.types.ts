@@ -190,36 +190,6 @@ export type SanityImageMetadata = {
 
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Slug | Order | Product | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./src/sanity/lib/getsearch.tsx
-// Variable: PRODUCT_SEARCH_QUERY
-// Query: *[_type == "product" && name match $searchParam] | order(name asc)
-export type PRODUCT_SEARCH_QUERYResult = Array<{
-  _id: string;
-  _type: "product";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  price?: number;
-  description?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  category?: "hoodie" | "jeans" | "shirt" | "short" | "tshirt";
-  discountPercent?: number;
-  new?: boolean;
-  colors?: Array<string>;
-  sizes?: Array<string>;
-}>;
-
 // Source: ./src/sanity/lib/product/getAllProduct.ts
 // Variable: ALL_PRODUCTS_QUERY
 // Query: *[_type == "product"] | order(name asc)
@@ -310,13 +280,43 @@ export type PRODUCT_BY_ID_QUERYResult = {
   sizes?: Array<string>;
 } | null;
 
+// Source: ./src/sanity/lib/product/searchProductByName.ts
+// Variable: PRODUCT_SEARCH_QUERY
+// Query: *[_type == "product" && name match $searchParam]        | order(name asc)
+export type PRODUCT_SEARCH_QUERYResult = Array<{
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  price?: number;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  category?: "hoodie" | "jeans" | "shirt" | "short" | "tshirt";
+  discountPercent?: number;
+  new?: boolean;
+  colors?: Array<string>;
+  sizes?: Array<string>;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n        *[_type == \"product\" && name match $searchParam] | order(name asc)\n      ": PRODUCT_SEARCH_QUERYResult;
     "*[_type == \"product\"] | order(name asc)": ALL_PRODUCTS_QUERYResult;
     "*[_type == \"product\"] | order(_createdAt desc)[0...4]": NEW_ARRIVALS_QUERYResult;
     "*[_type==\"product\" && _id == $id] | order(name asc) [0]": PRODUCT_BY_ID_QUERYResult;
+    "\n        *[_type == \"product\" && name match $searchParam]\n        | order(name asc)\n    ": PRODUCT_SEARCH_QUERYResult;
   }
 }
