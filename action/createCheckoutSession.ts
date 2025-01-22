@@ -19,14 +19,13 @@ export async function createCheckoutSession(
   metadata: Metadata
 ) {
   try {
-    // Check if any grouped items don't have a price
-    const itemsWithoutPrice = items.filter((item) => !item.Product.price);
+    const itemsWithoutPrice = items.filter((item) => item.Product.price == null);
 
     if (itemsWithoutPrice.length > 0) {
+      console.error("Items without price:", itemsWithoutPrice);
       throw new Error("Some items do not have a price");
     }
 
-    // Find the customer by email
     const customer = await stripe.customers.list({
       email: metadata.customerEmail,
       limit: 1,
@@ -34,18 +33,15 @@ export async function createCheckoutSession(
 
     let customerId: string | undefined;
     if (customer.data.length > 0) {
-      customerId = customer.data[0].id; // Corrected variable name to fetch customer ID
+      customerId = customer.data[0].id;
     }
 
-    // Debug logs for environment variables
-    console.log("Base URL:", process.env.NEXT_PUBLIC_BASE_URL);
+    const isLocal = process.env.NODE_ENV === "development";
+    const successUrl = process.env.SUCCESS_URL || 
+      (isLocal ? "http://localhost:3000/success" : "https://shop-co-97pt.vercel.app/success");
+    const cancelUrl = process.env.CANCEL_URL || 
+      (isLocal ? "http://localhost:3000/basket" : "https://shop-co-97pt.vercel.app/basket");
 
-    // Constructing success URL based on environment
-    const successUrl = `${
-      process.env.NEXT_PUBLIC_BASE_URL || "http://your-custom-domain.com"
-    }/success?session_id={CHECKOUT_SESSION_ID}&ordernumber=${metadata.orderNumber}`;
-
-    // Creating Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_creation: customerId ? undefined : "always",
@@ -54,35 +50,40 @@ export async function createCheckoutSession(
       mode: "payment",
       allow_promotion_codes: true,
       success_url: successUrl,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || "http://your-custom-domain.com"}/basket`,
+      cancel_url: cancelUrl,
       line_items: items.map((item) => ({
         price_data: {
-          currency: "PKR", // Use PKR for Pakistani Rupees
-          unit_amount: Math.round(item.Product.price! * 100), // Price in cents (multiply by 100 for PKR)
+          currency: "PKR",
+          unit_amount: Math.round(item.Product.price! * 100),
           product_data: {
             name: item.Product.name || "Unnamed Product",
             description: `Product ID: ${item.Product._id}`,
             metadata: {
               id: item.Product._id,
-              images: item.Product.image ? urlFor(item.Product.image).url() : null,
+              images: item.Product.image
+                ? urlFor(item.Product.image).url()
+                : null,
             },
           },
         },
         quantity: item.quantity,
       })),
       shipping_address_collection: {
-        allowed_countries: ['PK', 'US'], // Allowed countries for address collection
+        allowed_countries: ["PK", "US"],
       },
       phone_number_collection: {
-        enabled: true, // Enabling phone number collection
+        enabled: true,
       },
     });
 
-    // Return the session URL for redirection to the Stripe checkout page
     return session.url;
   } catch (error) {
-    // Log the error and throw it for further handling
-    console.error("Error creating checkout session:", error);
+    console.error("Error creating checkout session:", {
+      message: error,
+      stack: error,
+      items,
+      metadata,
+    });
     throw error;
   }
 }

@@ -25,15 +25,19 @@ interface Order {
 const OrdersPage = () => {
   const { user } = useUser(); // Fetch user information from Clerk
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      if (!user?.emailAddresses) {
+      if (!user?.emailAddresses?.[0]?.emailAddress) {
         console.error("User email not available");
+        setLoading(false);
         return;
       }
 
-      const query = `*[_type == "order" && email == "${user.emailAddresses}"] | order(orderDate desc) {
+      const userEmail = user.emailAddresses[0].emailAddress;
+
+      const query = `*[_type == "order" && email == "${userEmail}"] | order(orderDate desc) {
         _id,
         orderNumber,
         orderDate,
@@ -44,29 +48,33 @@ const OrdersPage = () => {
           quantity,
           product->{
             name,
-            price,
-            phone
+            price
           }
         }
       }`;
 
       try {
         const data = await client.fetch<Order[]>(query);
+        console.log("Fetched orders:", data); // Check the fetched data
         setOrders(data);
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [user?.emailAddresses]);
+  }, [user?.emailAddresses?.[0]?.emailAddress]); // Ensure email is correctly fetched
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-8">
       <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-4 md:p-6">
         <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4 md:mb-6">Your Orders</h1>
 
-        {orders.length === 0 ? (
+        {loading ? (
+          <div className="text-center text-lg text-gray-500">Loading...</div>
+        ) : orders.length === 0 ? (
           <div className="text-center text-lg text-gray-500">No orders found.</div>
         ) : (
           <ul className="space-y-4 md:space-y-6">
