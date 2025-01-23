@@ -3,6 +3,7 @@
 import { client } from "@/sanity/lib/client";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs"; // Clerk hook for user data
+import Link from "next/link";
 
 interface Product {
   product: {
@@ -120,6 +121,14 @@ const OrdersPage = () => {
                     ) : (
                       <p className="text-gray-500">No products available</p>
                     )}
+                  </div>
+                  <div className="text-center mt-4">
+                    <Link
+                      href="/genrate-tracking"
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                      Generate Tracking Number!
+                    </Link>
                   </div>
                 </div>
               </li>
