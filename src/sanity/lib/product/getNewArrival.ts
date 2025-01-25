@@ -5,7 +5,7 @@ import { defineQuery } from "next-sanity";
 // This function will be used in a server-side context
 export const getNewArrivals = async () => {
   // Sanity query to fetch the 4 latest products
-  const NEW_ARRIVALS_QUERY = defineQuery('*[_type == "product"] | order(_createdAt desc)[0...4]');
+  const NEW_ARRIVALS_QUERY = defineQuery('*[_type == "product"] | order(_createdAt desc)[1...4]');
   
   try {
     // Fetching the product data

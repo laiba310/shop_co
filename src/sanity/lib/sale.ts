@@ -5,7 +5,7 @@ import { client } from "./client";
 
 export const Sale = async () => {
   const query =  `
-*[_type == "product"] | order(_createdAt desc)[5...10] {
+*[_type == "product"] | order(_createdAt desc)[8...14] {
   _id,
   name,
   price,

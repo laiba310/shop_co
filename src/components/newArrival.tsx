@@ -3,11 +3,12 @@ import { urlFor } from "@/sanity/lib/imageUrl";
 import { Product } from "../../sanity.types"; // Assuming you have a Product type
 import Link from "next/link";
 
-interface NewArrivalsPageProps {
+interface NewArrivalPageProps {
   products: Product[]; // Define the products prop
+  title?: string; // Optional prop for heading
 }
 
-function ProductThumb({ product }: { product: Product }) {
+function ProductThumbb({ product }: { product: Product }) {
   const imageUrl = product.image
     ? urlFor(product.image).width(500).url()
     : "/default-image.jpg";
@@ -38,34 +39,40 @@ function ProductThumb({ product }: { product: Product }) {
   );
 }
 
-const NewArrivalsPage = ({ products }: NewArrivalsPageProps) => {
+const NewarrivalPage = ({ products, title = "New Arrival" }: NewArrivalPageProps) => {
   return (
     <>
-      <div className="container mx-auto xl:px-[9rem]">
-        <h1 className="text-[48px] font-extrabold text-center mb-6">New Arrivals</h1>
+      <div className="container mx-auto xl:px-[9rem] ">
+        <div>
+          {/* Dynamic Title */}
+          <h1 className="text-[48px] font-extrabold text-center mb-6 mt-8">{title}</h1>
 
-        {/* Dynamic layout for small and larger screens */}
-        <div className="flex space-x-6 overflow-x-auto scrollbar-hide md:grid md:grid-cols-2 lg:grid-cols-4 lg:gap-6 mb-10">
-          {products.length === 0 ? (
-            <p>No products available</p>
-          ) : (
-            products.map((product) => (
-              <div key={product._id} className="flex-none w-[300px] sm:w-[350px] md:w-auto">
-                <ProductThumb product={product} />
-              </div>
-            ))
-          )}
+          {/* Wrapper div with overflow-x-hidden */}
+          <div className="overflow-x-hidden">
+            {/* Horizontal scrolling area with hidden scrollbar */}
+            <div className="flex space-x-6 overflow-x-auto scrollbar-hide md:grid md:grid-cols-2 lg:grid-cols-4 lg:gap-6 mb-10">
+              {products.length === 3 ? (
+                <p>No products available</p>
+              ) : (
+                products.map((product) => (
+                  <div key={product._id} className="flex-none w-[300px] sm:w-[350px] md:w-auto group">
+                    <ProductThumbb product={product} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center items-center">
-        <Link href="/arrival">
-          <button className="w-[270px] h-[52px] bg-white text-black py-3 border border-gray-500 rounded-[100px] transition-transform duration-500 ease-in-out hover:scale-110">
-            View All
-          </button>
-        </Link>
+        <div className="flex justify-center items-center">
+          <Link href="/arrival">
+            <button className="w-[270px] h-[52px] bg-white text-black py-3 border border-gray-500 rounded-[100px] transition-transform duration-500 ease-in-out hover:scale-110">
+              View All
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );
 };
 
-export default NewArrivalsPage;
+export default NewarrivalPage;
