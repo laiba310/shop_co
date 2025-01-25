@@ -1,5 +1,6 @@
 import { getProductId } from "@/sanity/lib/product/getProductId";
 import ProductPageClient from "./ProductPageClient";
+import Newproduct from "@/components/relp";
 
 
 async function ProductPage({params}:{params:Promise<{id:string}>}){
@@ -17,9 +18,12 @@ async function ProductPage({params}:{params:Promise<{id:string}>}){
   }
 
   // Pass the fetched product to the client component
-  return <ProductPageClient product={product} />;
-
-  
+  return (
+    <div>
+      <ProductPageClient product={product} />
+      <Newproduct />
+    </div>
+  );
 }
 
 export default ProductPage;

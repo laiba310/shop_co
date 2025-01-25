@@ -15,7 +15,7 @@ export default async function TShirt() {
         <Link href="/blog" className="hover:underline">Casual</Link>
         
         <span className="text-gray-500">/</span>
-        <span className="font-bold text-black">-shrt</span>
+        <span className="font-bold text-black">T-shrt</span>
       </div>
       <h1 className="text-3xl font-bold text-center mb-6">T-Shirt Collection</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -14,7 +14,15 @@ function Header() {
   const itemCount = useBasketStore((state) =>
     state.items.reduce((total, item) => total + item.quantity, 0)
   );
-
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default submission
+    const form = e.currentTarget;
+    const query = form.query?.value || ""; // Retrieve query value
+    if (query) {
+      // Redirect to search page with query as URL parameter
+      window.location.href = `/search?query=${encodeURIComponent(query)}`;
+    }
+  };
   return (
     <header>
       {/* Promo Banner */}
@@ -44,34 +52,17 @@ function Header() {
         <div className="flex items-center space-x-4 relative ">
           {/* Search Bar */}
           {searchOpen && (
-            <form className="absolute top-full left-0 w-ful   bg-gray-100 text-gray-800  rounded shadow-lg z-50 md:hidden">
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  placeholder="Search for products"
-                  className=" py-2  pl-4  rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-2 top-2 text-gray-500 hover:text-gray-800"
-                >
-                  <Search />
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Visible Search Bar for Medium and Larger Screens */}
-          <form className="hidden md:flex items-center relative w-full max-w-lg"
-                    action="/search"
-
-          >
-
+        <form
+    action="/search"
+          onSubmit={handleSearchSubmit}
+          className="absolute top-full left-0 w-full bg-gray-100 text-gray-800 rounded shadow-lg z-50 md:hidden p-4"
+        >
+          <div className="relative flex items-center">
             <input
               type="text"
               name="query"
               placeholder="Search for products"
-              className="w-full py-2 pl-4 pr-10 rounded border focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="w-full py-2 pl-4 pr-10 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="submit"
@@ -79,16 +70,36 @@ function Header() {
             >
               <Search />
             </button>
-          </form>
+          </div>
+        </form>
+      )}
 
-          {/* Search Icon Toggle for Small Screens */}
-          <button
-            className="md:hidden flex items-center justify-center text-gray-800 p-2 rounded bg-gray-200 hover:bg-gray-300 transition-transform"
-            onClick={() => setSearchOpen(!searchOpen)}
-          >
-            <Search />
-          </button>
+      {/* Search Bar for Medium and Larger Screens */}
+      <form
+        onSubmit={handleSearchSubmit}
+        className="hidden md:flex items-center relative w-full max-w-lg"
+      >
+        <input
+          type="text"
+          name="query"
+          placeholder="Search for products"
+          className="w-full py-2 pl-4 pr-10 rounded border focus:outline-none focus:ring-2 focus:ring-gray-500"
+        />
+        <button
+          type="submit"
+          className="absolute right-2 top-2 text-gray-500 hover:text-gray-800"
+        >
+          <Search />
+        </button>
+      </form>
 
+      {/* Toggle Button for Small Screens */}
+      <button
+        className="md:hidden flex items-center justify-center text-gray-800 p-2 rounded bg-gray-200 hover:bg-gray-300 transition-transform"
+        onClick={() => setSearchOpen(!searchOpen)}
+      >
+        <Search />
+      </button>
           {/* Basket */}
           <Link
             href="/basket"

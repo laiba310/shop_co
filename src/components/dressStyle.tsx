@@ -6,7 +6,10 @@ const BrowseByStyle = () => {
     <>
       <div className='flex items-center justify-center mt-9'>
         <div className='bg-gray-100 w-full sm:w-[1239px] h-auto rounded-3xl'>
-          <h1 className="text-[48px] font-extrabold text-center mb-6 mt-4 text-2xl">BROWSE BY Dress STYLE</h1>
+        <h1 className="text-[48px] font-extrabold text-center mb-6 mt-4 text-2xl md:text-[48px] leading-tight">
+  BROWSE BY Dress STYLE
+</h1>
+
 
           <div className='flex flex-wrap justify-center'>
             <Image

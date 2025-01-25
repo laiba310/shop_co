@@ -6,6 +6,9 @@ import { urlFor } from "@/sanity/lib/imageUrl";
 import { Product } from "../../../../../sanity.types";
 import AddToBasketButton from "@/components/AddToBasketButton";
 import ToggleLinks from "../../ProductDetails/page";
+ 
+
+
 
 function ProductPageClient({ product }: { product: Product }) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -36,7 +39,7 @@ function ProductPageClient({ product }: { product: Product }) {
             <div className="flex items-center gap-2 mt-2">
               <span className="text-lg font-semibold text-black">${product.price}</span>
               {product.discountPercent && product.discountPercent > 0 && (
-                <span className="bg-red-400 text-white text-sm px-5 py-0 rounded-full">
+                <span className="bg-red-400 text-white text-center text-sm px-5 py-0 rounded-full">
                   {product.discountPercent}%
                 </span>
               )}
@@ -97,6 +100,8 @@ function ProductPageClient({ product }: { product: Product }) {
         </div>
       </div>
       <ToggleLinks />
+
+
       </div>
   );
 }
