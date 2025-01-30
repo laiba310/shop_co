@@ -43,7 +43,7 @@ export default function FilterOnly() {
 
   return (
     <>
-      <div className="p-4 w-[285px] h-[900px] border border-gray-200 rounded-2xl px-4 ">
+      <div className="p-4 w-[285px] h-[900px] md:border border-gray-200 rounded-2xl px-4 ">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-3 mt-3">Filters</h2>
         <SlidersHorizontal />

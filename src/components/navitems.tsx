@@ -16,13 +16,13 @@ const NavItems = () => {
               <DropdownMenuLabel>Collection</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="/shirt" className="text-black hover:text-blue-500">Man T-shirt</Link>
+                <Link href="/t-shirt" className="text-black hover:text-blue-500">Man T-shirt</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link href="/blog" className="text-black hover:text-blue-500">Casual</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/arrivall" className="text-black hover:text-blue-500">Latest Fashion</Link>
+                <Link href="/blog" className="text-black hover:text-blue-500">Latest Fashion</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

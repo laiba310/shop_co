@@ -13,10 +13,9 @@
 # testing
 /coverage
 
-
 # env files (can opt-in for committing if needed)
 .env*
-
+.env.local
 
 # next.js
 /.next/
@@ -35,13 +34,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-rm -rf .git
-
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.vercel

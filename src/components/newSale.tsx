@@ -2,6 +2,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/imageUrl";
 import { Product } from "../../sanity.types"; // Assuming you have a Product type
 import Link from "next/link";
+import AnimatedSection from "./AnimatedSection";
 
 interface NewSalePageProps {
   products: Product[]; // Define the products prop
@@ -14,6 +15,7 @@ function ProductThumbb({ product }: { product: Product }) {
     : "/default-image.jpg";
 
   return (
+    <AnimatedSection>
     <Link href={`/product/${product._id}`}>
       <div className="product-card">
         <div className="relative w-full h-64 flex items-center justify-center rounded-md overflow-hidden">
@@ -35,7 +37,8 @@ function ProductThumbb({ product }: { product: Product }) {
           ${product.price?.toFixed(2) || "0.00"}
         </p>
       </div>
-    </Link>
+    </Link>    
+          </AnimatedSection>
   );
 }
 
@@ -45,6 +48,7 @@ const NewSalePage = ({ products, title = "New Sale" }: NewSalePageProps) => {
       <div className="container mx-auto xl:px-[9rem] ">
         <div>
           {/* Dynamic Title */}
+        
           <h1 className="text-[48px] font-extrabold text-center mb-6 mt-8">{title}</h1>
 
           {/* Wrapper div with overflow-x-hidden */}
@@ -63,6 +67,7 @@ const NewSalePage = ({ products, title = "New Sale" }: NewSalePageProps) => {
             </div>
           </div>
         </div>
+        <AnimatedSection>
         <div className="flex justify-center items-center">
           <Link href="/sale">
             <button className="w-[270px] h-[52px] bg-white text-black py-3 border border-gray-500 rounded-[100px] transition-transform duration-500 ease-in-out hover:scale-110">
@@ -70,6 +75,7 @@ const NewSalePage = ({ products, title = "New Sale" }: NewSalePageProps) => {
             </button>
           </Link>
         </div>
+        </AnimatedSection>
       </div>
     </>
   );
