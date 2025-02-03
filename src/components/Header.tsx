@@ -126,7 +126,7 @@ function Header() {
             ) : (
               <SignedOut>
                 <SignInButton>
-                  <button className=" bg-red-50 py-2 px-4 rounded">
+                  <button className=" bg-blue-50 py-2 px-4 rounded">
                     Sign In
                   </button>
                 </SignInButton>
