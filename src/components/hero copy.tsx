@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import AnimatedSection from "./AnimatedSection";
+
 
 export const Hero = () => {
   const [text, setText] = useState("");
@@ -30,7 +30,7 @@ export const Hero = () => {
       <div className="flex flex-col lg:flex-row md:flex-row font-IntegralCF justify-center items-center m-auto text-black relative bg-[#F2F0F1] w-full h-auto gap-6 px-4">
         {/* Content Section */} 
         <div className="w-full md:w-1/2 flex flex-col justify-center lg:pl-24 sm:pl-0 m-auto z-10">
-        <AnimatedSection>
+      
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,19 +39,19 @@ export const Hero = () => {
           >
             {text}
           </motion.h1>
-          </AnimatedSection>
-          <AnimatedSection>
+     
+         
           <p className="font-Satoshi text-[14px] sm:text-[16px] text-black/60 font-normal leading-[22px] text-left tracking-tight">
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
-          </AnimatedSection>
-          <AnimatedSection>
+         
+       
           <Link href="/blog">
             <button className="mt-4 mb-3 w-[270px] h-[52px] bg-black text-white py-3 rounded-[100px] transition-transform duration-500 ease-in-out hover:scale-110 hover:bg-gray-800">
               Shop
             </button>
           </Link>
-          </AnimatedSection>
+          
         </div>
 
         {/* Image Section */}
