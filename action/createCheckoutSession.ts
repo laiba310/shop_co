@@ -38,9 +38,9 @@ export async function createCheckoutSession(
 
     const isLocal = process.env.NODE_ENV === "development";
     const successUrl = process.env.SUCCESS_URL || 
-      (isLocal ? "http://localhost:3000/success" : "https://shop-co-97pt.vercel.app/success");
+      (isLocal ? "http://localhost:3000/success" : "https://laiba-shop-co-97pt.vercel.app/success");
     const cancelUrl = process.env.CANCEL_URL || 
-      (isLocal ? "http://localhost:3000/basket" : "https://shop-co-97pt.vercel.app/basket");
+      (isLocal ? "http://localhost:3000/basket" : "https://laiba-shop-co-97pt.vercel.app/basket");
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
